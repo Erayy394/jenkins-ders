@@ -16,7 +16,12 @@ pipeline {
         stage('Test') {
             steps {
                 echo '🧪 Testler çalıştırılıyor...'
-                bat 'npm test || echo "⚠️ Testler başarısız oldu, ama devam ediliyor..."'
+                script {
+                    def testResult = bat(returnStatus: true, script: 'npm test')
+                    if (testResult != 0) {
+                        error "🔥 Testler başarısız oldu! Pipeline durduruluyor."
+                    }
+                }
             }
         }
         stage('Deploy') {
