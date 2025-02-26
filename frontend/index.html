@@ -19,32 +19,31 @@
     <input type="date" id="event-date">
     <button onclick="addEvent()">➕ Ekle</button>
 
+    <h2>💼 Etkinlik Giren Personel</h2>
+    <div class="card">
+        <label for="event-person">Personel Adı:</label>
+        <input type="text" id="event-person" placeholder="Personel Adı">
+        <button onclick="addPersonEvent()">➕ Personel Kaydet</button>
+    </div>
+
     <script>
         const API_URL = "http://localhost:3000/etkinlikler";
 
-        
-       // 📌 Etkinlikleri MySQL'den Getir (Tarih Formatını Düzeltildi)
-async function getEvents() {
-    try {
-        const response = await fetch(API_URL);
-        const events = await response.json();
-        let eventList = "";
-        events.forEach(event => {
-            let formattedDate = new Date(event.tarih).toLocaleDateString('tr-TR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            eventList += `<li>${event.isim} - ${formattedDate} <button onclick="deleteEvent(${event.id})">🗑️ Sil</button></li>`;
-        });
-        document.getElementById('event-list').innerHTML = eventList;
-    } catch (error) {
-        console.error("❌ Etkinlikleri çekerken hata oluştu:", error);
-    }
-}
+        // 📌 Etkinlikleri MySQL'den Getir
+        async function getEvents() {
+            try {
+                const response = await fetch(API_URL);
+                const events = await response.json();
+                let eventList = "";
+                events.forEach(event => {
+                    eventList += `<li>${event.isim} - ${event.tarih} <button onclick="deleteEvent(${event.id})">🗑️ Sil</button></li>`;
+                });
+                document.getElementById('event-list').innerHTML = eventList;
+            } catch (error) {
+                console.error("❌ Etkinlikleri çekerken hata oluştu:", error);
+            }
+        }
 
-       
-       
         // 📌 Yeni Etkinlik Ekle
         async function addEvent() {
             const name = document.getElementById("event-name").value;
@@ -72,6 +71,33 @@ async function getEvents() {
                 }
             } catch (error) {
                 console.error("❌ Etkinlik ekleme hatası:", error);
+            }
+        }
+
+        // 📌 Etkinlik Giren Personel Kaydet (Hatalı Kod!)
+        async function addPersonEvent() {
+            const personName = document.getElementById("event-person").value;
+            
+            if (!personName) {
+                alert("Lütfen personel adı giriniz!");
+                return;
+            }
+            
+            // ⚠️ HATALI KOD: API'ye yanlış URL veya eksik veri ile istek gönderiliyor!
+            try {
+                const response = await fetch("http://localhost:3000/personel", { // Hatalı URL
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ isim: person }) // Hatalı değişken adı
+                });
+
+                if (response.ok) {
+                    alert("✅ Personel başarıyla eklendi!");
+                } else {
+                    alert("❌ Personel eklenirken hata oluştu!");
+                }
+            } catch (error) {
+                console.error("❌ Personel ekleme hatası:", error);
             }
         }
 
