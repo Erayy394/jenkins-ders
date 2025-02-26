@@ -7,24 +7,21 @@ pipeline {
                 git 'https://github.com/Erayy394/jenkins-ders.git'
             }
         }
-        
         stage('Build') {
             steps {
-                echo 'Building the project...'
-                bat 'npm install'
+                echo '📦 Proje bağımlılıkları yükleniyor...'
+                bat 'npm install'  // Windows için uygun betik
             }
         }
-        
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                bat 'npm test || echo "Testler başarısız oldu, devam ediliyor..."'
+                echo '🧪 Testler çalıştırılıyor...'
+                bat 'npm test || echo "⚠️ Testler başarısız oldu, ama devam ediliyor..."'
             }
         }
-        
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
+                echo '🚀 Uygulama deploy ediliyor...'
             }
         }
     }
