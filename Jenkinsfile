@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo '📦 Proje bağımlılıkları yükleniyor...'
-                bat 'npm install'  // Windows için uygun betik
+                bat 'npm install'  
             }
         }
         stage('Test') {
