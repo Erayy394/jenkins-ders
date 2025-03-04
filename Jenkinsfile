@@ -4,13 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Erayy394/jenkins-ders.git'
+                git 'https://github.com/Erayy394/jenkins-ders.git'  // GitHub reposundan proje çekme
             }
         }
         stage('Build') {
             steps {
                 echo '📦 Proje bağımlılıkları yükleniyor...'
-                bat 'npm install'  
+                bat 'npm install'  // Windows için
+                // sh 'npm install' // Linux/macOS için
             }
         }
         stage('Test') {
@@ -27,6 +28,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo '🚀 Uygulama deploy ediliyor...'
+                script {
+                    sh 'pm2 stop app || true'  // PM2 ile eski uygulamayı durdur
+                    sh 'pm2 start app.js'      // Yeni uygulamayı başlat
+                }
             }
         }
     }
