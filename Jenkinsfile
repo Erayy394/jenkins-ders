@@ -10,8 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo '📦 Proje bağımlılıkları yükleniyor...'
-                bat 'npm install'  // Windows için
-                // sh 'npm install' // Linux/macOS için
+                bat 'npm install'  // Windows için bat komutunu kullanıyoruz
             }
         }
         stage('Test') {
@@ -29,8 +28,8 @@ pipeline {
             steps {
                 echo '🚀 Uygulama deploy ediliyor...'
                 script {
-                    sh 'pm2 stop app || true'  // PM2 ile eski uygulamayı durdur
-                    sh 'pm2 start app.js'      // Yeni uygulamayı başlat
+                    bat 'pm2 stop app || true'  // PM2 ile eski uygulamayı durduruyoruz (Windows için)
+                    bat 'pm2 start app.js'      // Yeni uygulamayı başlatıyoruz (Windows için)
                 }
             }
         }
